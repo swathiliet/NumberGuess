@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        #gameContainer {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        input {
+            padding: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 8px 15px;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Number Guessing Game</h1>
+    <div id="gameContainer">
+        <p>Guess a number between 1 and 100:</p>
+        <input type="number" id="guessInput" min="1" max="100">
+        <button onclick="checkGuess()">Submit Guess</button>
+        <p id="message"></p>
+        <p>Attempts Left: <span id="attemptsLeft">10</span></p>
+        <button onclick="restartGame()">Restart</button>
+    </div>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attemptsLeft = 10;
+        
+        function checkGuess() {
+            let userGuess = document.getElementById("guessInput").value;
+            attemptsLeft--;
+            document.getElementById("attemptsLeft").innerText = attemptsLeft;
+
+            if (userGuess == randomNumber) {
+                document.getElementById("message").innerText = "🎉 Congratulations! You guessed the right number!";
+                document.getElementById("message").style.color = "green";
+                disableInput();
+            } else if (attemptsLeft === 0) {
+                document.getElementById("message").innerText = "Game Over! The correct number was " + randomNumber;
+                document.getElementById("message").style.color = "red";
+                disableInput();
+            } else if (userGuess > randomNumber) {
+                document.getElementById("message").innerText = "Too High! Try Again.";
+                document.getElementById("message").style.color = "red";
+            } else {
+                document.getElementById("message").innerText = "Too Low! Try Again.";
+                document.getElementById("message").style.color = "red";
+            }
+        }
+
+        function disableInput() {
+            document.getElementById("guessInput").disabled = true;
+        }
+
+        function restartGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            attemptsLeft = 10;
+            document.getElementById("attemptsLeft").innerText = attemptsLeft;
+            document.getElementById("message").innerText = "";
+            document.getElementById("guessInput").value = "";
+            document.getElementById("guessInput").disabled = false;
+        }
+    </script>
+</body>
+</html>
